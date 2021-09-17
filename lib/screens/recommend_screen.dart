@@ -10,27 +10,32 @@ class MobileRecommendedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: headerContent(context, 'Recommended'),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children:
                 List.generate(8, (index) => buildListProduct(context)),
               ),
             ),
-          ),
-          ListView.separated(
-              itemBuilder:  (context,index)=> buildListRecommended(),
-              separatorBuilder: (context,index)=> Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                child: Divider(color: ColorsApp.grayColor,),
+            SizedBox(
+              child: ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(vertical: 15),
+                physics: NeverScrollableScrollPhysics(),
+                  itemBuilder:  (context,index)=> buildListRecommended(),
+                  separatorBuilder: (context,index)=> Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: Divider(color: ColorsApp.grayColor,),
+                  ),
+                  itemCount: 10
               ),
-              itemCount: 10
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -40,14 +45,14 @@ class MobileRecommendedScreen extends StatelessWidget {
     child: Row(
       children: [
         Container(
-          height: 150,
-          width: 150,
+          height: 120,
+          width: 120,
           child: Stack(
             alignment: Alignment.topRight,
             children: [
               helpImage(
                   'https://media-cdn.tripadvisor.com/media/photo-s/1d/91/47/a6/our-double-deluxe-rooms.jpg',
-                  20.0),
+                  10.0),
               Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: helpIconButton(
@@ -61,6 +66,7 @@ class MobileRecommendedScreen extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(width: 30,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

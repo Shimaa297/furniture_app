@@ -15,20 +15,20 @@ class ColorsApp{
   static final grayColor = Color(0xFFB9B8CB);
 }
 
-int select = 0;
+//int select = 0;
 
 Widget categoryList(index, context)
 {
   var provider = Provider.of<ProviderApp>(context);
-  return GestureDetector(
+  return InkWell(
     onTap: (){
       provider.selectCategory(index);
     },
     child: Container(
       decoration: BoxDecoration(
-          color: select == index ? ColorsApp.primaryColor : Colors.transparent,
+          color: provider.select == index ? ColorsApp.primaryColor : Colors.transparent,
           border: Border.all(
-              color: select == index ? ColorsApp.primaryColor : ColorsApp.grayColor
+              color: provider.select == index ? ColorsApp.primaryColor : ColorsApp.grayColor
           )
       ),
       child: Center(
@@ -39,7 +39,7 @@ Widget categoryList(index, context)
             Icon(
               Icons
                   .king_bed_rounded,
-              color: select == index
+              color: provider.select == index
                   ? Colors.white
                   : ColorsApp
                   .defTextColor,
@@ -47,7 +47,7 @@ Widget categoryList(index, context)
             ),
             Text(
               'Bed Room',
-              style: select == index
+              style: provider.select == index
                   ? SubtitleTextStyle.copyWith(color: Colors.white)
                   : SubtitleTextStyle.copyWith(color: ColorsApp.defTextColor),
             )

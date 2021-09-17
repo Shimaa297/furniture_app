@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/header&footer.dart';
@@ -24,13 +23,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class MobileContent extends StatefulWidget {
-  @override
-  _MobileContentState createState() => _MobileContentState();
-}
+class MobileContent extends StatelessWidget {
 
-class _MobileContentState extends State<MobileContent> {
-  int select = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +71,7 @@ class _MobileContentState extends State<MobileContent> {
                   ),
                   helpIconButton(
                     ColorsApp.primaryColor,
-                    BoxShape.rectangle,
+                    BoxShape.circle,
                     () {},
                     Icons.filter_alt_sharp,
                     Colors.black,
@@ -106,7 +100,7 @@ class _MobileContentState extends State<MobileContent> {
                           ),
                           Text(
                             'Rent Type',
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: SubtitleTextStyle,
                           ),
                         ],
                       ),
@@ -158,21 +152,20 @@ class _MobileContentState extends State<MobileContent> {
   }
 
   buildListCategory(context, index) {
+    var provider = Provider.of<ProviderApp>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            select = index;
-          });
-        },
-        child: Column(
-          children: [
-            Container(
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: (){
+              provider.selectCategoryHome(index);
+            },
+            child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
-                    select == index
+                    provider.selectHome == index
                         ? BoxShadow(
                             color: Colors.black.withOpacity(0.16),
                             spreadRadius: 2,
@@ -192,30 +185,28 @@ class _MobileContentState extends State<MobileContent> {
                   'https://media-cdn.tripadvisor.com/media/photo-s/1d/91/47/a6/our-double-deluxe-rooms.jpg',
                   10.0),
             ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              'Room',
-              style: SubtitleTextStyle.copyWith(
-                  color: select == index
-                      ? ColorsApp.defTextColor
-                      : ColorsApp.grayColor,
-                  fontWeight: FontWeight.w600),
-            )
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            'Room',
+            style: SubtitleTextStyle.copyWith(
+                color: provider.selectHome == index
+                    ? ColorsApp.defTextColor
+                    : ColorsApp.grayColor,
+                fontWeight: FontWeight.w600),
+          )
+        ],
       ),
     );
   }
 }
 
 class WebHomeContent extends StatelessWidget {
-  int select = 0;
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ProviderApp>(context);
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -357,10 +348,7 @@ class WebHomeContent extends StatelessWidget {
                       labelColor: ColorsApp.secColor,
                       indicatorPadding: EdgeInsets.all(8),
                       indicatorColor: ColorsApp.secColor,
-                      labelStyle: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: 15),
+                      labelStyle: BodyTextStyle,
                       unselectedLabelColor: ColorsApp.primaryColor,
                       tabs: <Widget>[
                         Tab(
