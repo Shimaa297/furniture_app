@@ -106,7 +106,8 @@ Widget helpContainerShadow(Widget content) => Container(
               blurRadius: 3,
               offset: Offset(0, 3), // changes position of shadow
             ),
-          ]),
+          ]
+      ),
       child: content,
     );
 
@@ -145,6 +146,7 @@ Widget helpSetting({
         )
       ],
     );
+
 
 double helpWidth(BuildContext context) {
   return MediaQuery.of(context).size.width;
@@ -253,6 +255,7 @@ Widget helpIconButton(
     IconData icon,
     Color iconColor,
     )=>  Container(
+  margin: EdgeInsets.all(5),
   decoration: BoxDecoration(
     shape: boxShape,
     borderRadius: boxShape== BoxShape.circle ? null : BorderRadius.circular(15),

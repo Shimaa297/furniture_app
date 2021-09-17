@@ -32,6 +32,8 @@ dependencies:
   cached_network_image: ^3.0.0
   loading_indicator:
   carousel_slider:
+  flutter_staggered_grid_view:
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
