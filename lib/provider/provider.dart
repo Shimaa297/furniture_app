@@ -14,6 +14,12 @@ class ProviderApp extends ChangeNotifier {
     selectHome = index;
     notifyListeners();
   }
+
+  bool isPassword = true;
+  isVisibility(){
+    isPassword =! isPassword;
+    notifyListeners();
+  }
   // addProduct(Items model)
   // {
   //   products.add(model);

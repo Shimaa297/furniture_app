@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:untitled/help/constants/constant.dart';
+import 'package:untitled/help/constants/styles.dart';
 
 
 const defaultColor = Color(0xFF93D8F8);
@@ -27,9 +28,10 @@ Widget helpTextField({
   double radius,
   TextInputType textInputType,
   Function onSave,
+  Function suffixPressed,
   TextEditingController controller,
   bool isPassword = false,
-  Widget prefixIcon,
+  Widget prefixIcon, suffixIcon,
 }) =>
     TextFormField(
       controller: controller,
@@ -38,19 +40,14 @@ Widget helpTextField({
         labelText: labelText,
         fillColor: fillColor,
         prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon != null ? IconButton(icon: suffixIcon, onPressed: suffixPressed,  color: ColorsApp.primaryColor,) : null,
         filled: true,
         enabledBorder: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(radius),
           borderSide: new BorderSide(color: Colors.white),
         ),
       ),
-      validator: (val) {
-        if (val.length == 0) {
-          return validator;
-        } else {
-          return null;
-        }
-      },
+      validator: validator,
       keyboardType: textInputType,
       style: new TextStyle(
         fontFamily: "Cairo",
@@ -101,7 +98,7 @@ Widget helpContainerShadow(Widget content) => Container(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.16),
+              color: Colors.grey.withOpacity(0.12),
               spreadRadius: 2,
               blurRadius: 3,
               offset: Offset(0, 3), // changes position of shadow
@@ -116,7 +113,6 @@ Widget helpSetting({
   String text,
   Function function,
   Color iconColor = Colors.black,
-  iconC,
   textColor,
 }) =>
     Column(
@@ -130,17 +126,13 @@ Widget helpSetting({
           trailing: Icon(
             Icons.arrow_forward_ios,
             size: 20,
-            color: iconC,
+            color: ColorsApp.defTextColor,
           ),
           title: Text(
             text,
-            style: GoogleFonts.cairo(
-              color: textColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
+            style: BodyTextStyle
             ),
           ),
-        ),
         Divider(
           color: Colors.grey[400],
         )

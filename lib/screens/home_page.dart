@@ -28,120 +28,147 @@ class MobileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: headerContent(context, ''),
+      // appBar: headerContent(context, ''),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: SizedBox(
+          height: helpHeight(context)*1.5,
+          child: Stack(
             children: [
-              Text(
-                'Find the \nBest Apartment',
-                style: TitleTextStyle,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    height: helpHeight(context) * .07,
-                    width: helpWidth(context) * .7,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.16),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ]
-                    ),
-                    child: helpTextField(
-                      labelText: 'Search Location',
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: ColorsApp.grayColor,
-                      ),
-                      textInputType: TextInputType.text,
-                      radius: 30.0,
-                    ),
-                  ),
-                  helpIconButton(
-                    ColorsApp.primaryColor,
-                    BoxShape.circle,
-                    () {},
-                    Icons.filter_alt_sharp,
-                    Colors.black,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              helpContainerShadow(
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          helpIconButton(
-                            ColorsApp.secColor,
-                            BoxShape.circle,
-                            () {},
-                            Icons.home,
-                            Colors.white,
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text(
-                            'Rent Type',
-                            style: SubtitleTextStyle,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(
-                              5, (index) => buildListCategory(context, index)),
-                        ),
-                      ),
-                    ],
-                  ),
+              Container(
+                height: 280,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: ColorsApp.col,
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Recommended',
-                      style: SubtitleTextStyle),
-                  TextButton(
-                    onPressed: ()
-                    {
-                      helpNavigateTo(context, MobileRecommendedScreen());
-                    },
-                    child: Text(
-                      'See all',
-                      style: BodyTextStyle
-                          .copyWith(fontSize: 12),
+              headerContent(context, ''),
+              Positioned(
+                top: 70,
+                left: 10,
+                right: 10,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Find the \nBest Apartment',
+                      style: TitleTextStyle,
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: helpHeight(context) * .07,
+                          width: helpWidth(context) * .7,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.16),
+                                  spreadRadius: 2,
+                                  blurRadius: 3,
+                                  offset: Offset(0, 3), // changes position of shadow
+                                ),
+                              ]
+                          ),
+                          child: helpTextField(
+                            labelText: 'Search Location',
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: ColorsApp.grayColor,
+                            ),
+                            textInputType: TextInputType.text,
+                            radius: 30.0,
+                          ),
+                        ),
+                        helpIconButton(
+                          ColorsApp.primaryColor,
+                          BoxShape.circle,
+                              () {},
+                          Icons.filter_alt_sharp,
+                          Colors.black,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      List.generate(
-                          5, (index) => buildListProduct(context)),
+              Positioned(
+                top: 220,
+                right: 20,
+                left: 20,
+                child: Column(
+                  children: [
+                    helpContainerShadow(
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                helpIconButton(
+                                  ColorsApp.secColor,
+                                  BoxShape.circle,
+                                      () {},
+                                  Icons.home,
+                                  Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Text(
+                                  'Rent Type',
+                                  style: SubtitleTextStyle,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(
+                                    5, (index) => buildListCategory(context, index)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Recommended',
+                            style: SubtitleTextStyle),
+                        TextButton(
+                          onPressed: ()
+                          {
+                            helpNavigateTo(context, MobileRecommendedScreen());
+                          },
+                          child: Text(
+                            'See all',
+                            style: BodyTextStyle
+                                .copyWith(
+                                fontSize: 12,
+                                decoration: TextDecoration.underline
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children:
+                        List.generate(
+                            5, (index) => buildListProduct(context)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

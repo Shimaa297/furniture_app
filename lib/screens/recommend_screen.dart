@@ -9,6 +9,7 @@ class MobileRecommendedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF4F5F8),
       appBar: headerContent(context, 'Recommended'),
       body: SingleChildScrollView(
         child: Column(

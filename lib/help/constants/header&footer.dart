@@ -3,6 +3,7 @@ import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/screens/category/category_screen.dart';
+import 'package:untitled/screens/profile/profile.dart';
 
 
 Widget headerContent(
@@ -14,15 +15,21 @@ Widget headerContent(
       actions: [
         Padding(
           padding: const EdgeInsets.all(5.0),
-          child: Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: ColorsApp.defTextColor),
-                  borderRadius: BorderRadius.circular(10.0)),
-              height: 50,
-              width: 50,
-              child: helpImage(
-                  'https://www.premadegraphics.com/img_1/23/Female-Avatar-2.png',
-                  10.0)),
+          child: GestureDetector(
+            onTap: ()
+            {
+              helpNavigateTo(context, ProfileScreen());
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: ColorsApp.defTextColor),
+                    borderRadius: BorderRadius.circular(10.0)),
+                height: 50,
+                width: 50,
+                child: helpImage(
+                    'https://www.premadegraphics.com/img_1/23/Female-Avatar-2.png',
+                    10.0)),
+          ),
         ),
       ],
       title: Text(

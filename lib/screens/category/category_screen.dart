@@ -7,19 +7,22 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: headerContent(context, 'Category'),
-      body: SingleChildScrollView(
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 20.0,
-          mainAxisSpacing: 20.0,
-          children:
-          List.generate(
-              6,
-                  (index) => categoryList(index, context)),
-          padding: EdgeInsets.zero,
-          physics: BouncingScrollPhysics(),
-          childAspectRatio: 20.0 / 10.0,
-          shrinkWrap: true,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: GridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: 15.0,
+            mainAxisSpacing: 15.0,
+            children:
+            List.generate(
+                6,
+                    (index) => categoryList(index, context)),
+            padding: EdgeInsets.zero,
+            physics: BouncingScrollPhysics(),
+            childAspectRatio: 20.0 / 10.0,
+            shrinkWrap: true,
+          ),
         ),
       ),
     );
