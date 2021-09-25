@@ -6,23 +6,22 @@ import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/provider/provider.dart';
+import 'package:untitled/provider/provider_signIn.dart';
 import 'package:untitled/screens/home_page.dart';
+import 'package:untitled/screens/profile/profile.dart';
+import 'package:untitled/screens/registration/register_screen.dart';
 
 
 class LoginScreen extends StatelessWidget {
- Auth auth = Auth();
-  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  String _email , _password ;
 
-  submitLogin(context)
-  {
-    // if(_globalKey.currentState.validate())
-    // {
-    //   _globalKey.currentState.save();
-    // }
-      auth.userLogin(email: _email, password: _password);
-      helpNavigateTo(context, HomePage());
-  }
+  Auth auth = Auth();
+  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ProviderApp>(context);
@@ -38,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                   height: 300,
                     child: helpImage('https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg', 0.0)),
                 helpTextField(
+                  controller: _emailController,
                   labelText: 'email',
                   fillColor: ColorsApp.col,
                   prefixIcon: Icon(
@@ -46,16 +46,16 @@ class LoginScreen extends StatelessWidget {
                   ),
                   radius: 50.0,
                   textInputType: TextInputType.emailAddress,
-                  validator: (input){
-                    if(input == null){
-                      Text('Email is Empty');
-                    }
-                    return null;
+                  validator:(value) {
+                    if (value.isEmpty) {
+                      return 'Email too Short';
+                    } return null;
                   },
-                  onSave: (input)=> _email = input,
+                  // onSave: (input)=> _email = input,
                 ),
                 SizedBox(height: 30,),
                 helpTextField(
+                  controller: _passwordController,
                   labelText: 'password',
                   isPassword: provider.isPassword,
                   suffixIcon: provider.isPassword ?  Icon(Icons.visibility): Icon(Icons.visibility_off_rounded),
@@ -67,13 +67,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                   radius: 50.0,
                   textInputType: TextInputType.visiblePassword,
-                  validator:(input){
-                    if(input==null){
-                      Text('Password is Empty');
-                    }
-                    return null;
+                  validator:(value) {
+                    if (value.isEmpty) {
+                      return 'PassWord too Short';
+                    } return null;
                   },
-                  onSave: (input)=> _password = input,
+                  // onSave: (input)=> _password = input,
                 ),
                 SizedBox(height: 20,),
                 SizedBox(
@@ -117,7 +116,12 @@ class LoginScreen extends StatelessWidget {
                     helpIconButton(
                         Colors.red,
                         BoxShape.circle,
-                            (){},
+                            ()
+                        {
+                          final provider = Provider.of<ProviderSignIn>(context, listen: false);
+                          provider.googleLogin();
+                          helpNavigateTo(context, ProfileScreen());
+                        },
                         FontAwesome.google,
                         Colors.white),
                   ],
@@ -125,12 +129,21 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 20,),
                 helpButton(
                   text: 'Login',
-                  function: submitLogin(context),
+                  function: (){login(context);},
+                  // function: submitLogin(context),
                   textColor: ColorsApp.defTextColor,
                   radius: 50.0,
                   elevation: 20.0,
                   fontSize: 20.0,
                 ),
+                //SizedBox(height: 20,),
+                TextButton(
+                    onPressed: ()
+                    {
+                      helpNavigateTo(context, RegisterScreen());
+                    },
+                    child: Text("Register", style: SubtitleTextStyle,)
+                )
               ],
             ),
           ),
@@ -138,4 +151,55 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+  login(context) async {
+    if(_globalKey.currentState.validate())
+    {
+      _globalKey.currentState.save();
+      await auth.userLogin(_emailController.text, _passwordController.text);
+      print('Login Done');
+      helpNavigateTo(context, HomePage());
+    }
+    else{
+      auth.showError('Some thing is Error', context);
+    }
+  }
+  //  loginFunction(context) async{
+  //   final String email = _emailController.text.trim();
+  //   final String password = _passwordController.text.trim();
+  //
+  //   if(email.isNotEmpty && password.isNotEmpty)
+  //   {
+  //     if(_globalKey.currentState.validate())
+  //     {
+  //       await auth.userLogin(email, password);
+  //       print('Login Done');
+  //       helpNavigateTo(context, HomePage());
+  //     }
+  //     // await auth.userLogin(email, password);
+  //     //     print('Login Done');
+  //     //     helpNavigateTo(context, HomePage());
+  //     // await auth.userLogin(email, password).then((value)
+  //     // {
+  //     //   if( != null)
+  //     //   {
+  //     //     print('Login Done');
+  //     //     helpNavigateTo(context, HomePage());
+  //     //   } else {
+  //     //     auth.showError('error', context);
+  //     //   }
+  //     // }).catchError((e)=> e.toString());
+  //   }
+  //   if(email.isEmpty){
+  //     print("Email is Empty");
+  //   } else{
+  //     if(password.isEmpty){
+  //       print("Password is Empty");
+  //     } else{
+  //       auth.userLogin(email, password);
+  //       helpNavigateTo(context, HomePage());
+  //     }
+  //    // helpNavigateTo(context, HomePage());
+  //   }
+  // }
 }

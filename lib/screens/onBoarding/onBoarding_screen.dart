@@ -25,28 +25,18 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   List<BoardingModel> boarding = [
     BoardingModel(
         title: ' Search Advance Filters',
-        image: 'assets/images/search.svg',
+        image: 'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
         body: 'Discover your property with advance filters like price distance and calender'),
     BoardingModel(
         title: ' Lower prices',
-        image: 'assets/images/money.svg',
+        image: 'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
         body: 'The best models at the lowest prices'),
     BoardingModel(
         title: ' On Boarding Title 3',
-        image: 'assets/images/search.svg',
+        image: 'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
         body: 'Sub Title on boarding title 3'),
   ];
 
-  // void submit()
-  // {
-  //   CacheHelper.saveData(key: 'onBoarding', value: true).then((value)
-  //   {
-  //     if(value)
-  //     {
-  //       navigateTo(context, LoginScreen());
-  //     }
-  //   });
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,8 +126,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
-        height: 300,
-        child: Image.asset(model.image),
+        height: 250,
+        child: helpImage(model.image, 0.0)
       ),
       SizedBox(
         height: 10,

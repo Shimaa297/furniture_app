@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
@@ -11,6 +12,8 @@ Widget headerContent(
     String title,
     )
 {
+  final user = FirebaseAuth.instance.currentUser;
+
   return AppBar(
       actions: [
         Padding(
@@ -27,7 +30,7 @@ Widget headerContent(
                 height: 50,
                 width: 50,
                 child: helpImage(
-                    'https://www.premadegraphics.com/img_1/23/Female-Avatar-2.png',
+                    '${user.photoURL}',
                     10.0)),
           ),
         ),

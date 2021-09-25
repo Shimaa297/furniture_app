@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/auth/model/user_model.dart';
@@ -10,42 +13,49 @@ class Auth{
    UserModel userModel;
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    userLogin({
-   @required String email, @required String password}) async
+   Future<void> userLogin(String email, String password) async
   {
-    _auth.signInWithEmailAndPassword(
-        email: userModel.email, 
-        password: userModel.password).then((value){
-          print(userModel.email);
-          print(userModel.password);
+   await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password
+   ).then((value){
+          print(email);
+          print(password);
+          print("user Login");
     }).catchError(
-            (errorMessage, context){
-              showError(errorMessage, context);
+            (e){
+              print(e.toString());
                }
             );
   }
 
-   userRegister(
+   Future<void> userRegister(String name, phone, email, password) async
    {
-     String name, phone, email, password
-   }) async
-   {
-     UserModel userModel = UserModel(
+      UserModel userModel = UserModel(
        name: name,
        email: email,
        password: password,
        phone: phone,
      );
 
-     _auth.createUserWithEmailAndPassword(
+    await _auth.createUserWithEmailAndPassword(
          email: email,
          password: password,
-     ).then((value){
+     ).then((value) async{
+      User user = FirebaseAuth.instance.currentUser;
+      await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+        'uid' : user.uid,
+        'email' : email,
+        'password' : password,
+        'name' : name,
+        'phone' : phone,
+      });
        print(userModel.email);
        print(userModel.password);
+       print("User Register");
      }).catchError(
-             (errorMessage, context){
-           showError(errorMessage, context);
+             (e){
+           print(e.toString());
          }
      );
    }
@@ -59,10 +69,21 @@ class Auth{
          {
            return AlertDialog(
              title: Text('ERROR !!', style: SubtitleTextStyle,),
-             content: Text(
-                 errorMessage,
-               overflow: TextOverflow.visible,
-               style: BodyTextStyle,
+             content: Column(
+               mainAxisSize: MainAxisSize.min,
+               children: [
+                 Container(
+                   height: 100,
+                   width: 100,
+                   child: helpImage('https://www.seekpng.com/png/detail/11-110262_sad-emoji-png-clipart-sad-emoji.png', 0.0),
+                 ),
+                 SizedBox(height: 5,),
+                 Text(
+                     errorMessage,
+                   overflow: TextOverflow.visible,
+                   style: BodyTextStyle,
+                 ),
+               ],
              ),
              actions: [
                helpIconButton(
@@ -72,11 +93,12 @@ class Auth{
                    {
                      Navigator.pop(context);
                    },
-                   Icons.arrow_back_ios,
+                   Icons.arrow_forward_ios,
                    Colors.black)
              ],
            );
          }
      );
    }
+
 }
