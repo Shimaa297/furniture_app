@@ -1,11 +1,20 @@
+
+
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/auth/model/user_model.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/screens/category/category_screen.dart';
 import 'package:untitled/screens/profile/profile.dart';
 
+ File image;
+// final imageTemporary = File(image.path);
+// setState(() => this.image = imageTemporary);
 
 Widget headerContent(
     context,
@@ -13,7 +22,7 @@ Widget headerContent(
     )
 {
   final user = FirebaseAuth.instance.currentUser;
-
+ UserModel userModel;
   return AppBar(
       actions: [
         Padding(
@@ -29,9 +38,15 @@ Widget headerContent(
                     borderRadius: BorderRadius.circular(10.0)),
                 height: 50,
                 width: 50,
-                child: helpImage(
-                    '${user.photoURL}',
-                    10.0)),
+                child: image != null ? Container(
+                  height: 50,
+                  width: 50,
+                  child: Image.file(image, fit: BoxFit.cover,)) : helpImage(user.photoURL, 10)
+            //     ):helpImage(
+            //         '${user.photoURL}',
+            //         10.0)
+            // ),
+            )
           ),
         ),
       ],
@@ -40,18 +55,18 @@ Widget headerContent(
         style: SubtitleTextStyle,
       ),
       centerTitle: true,
-      leading: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: helpIconButton(
-          Colors.white,
-          BoxShape.rectangle,
-              () {
-            helpNavigateTo(context, CategoryScreen());
-          },
-          Icons.sort,
-          Colors.black,
-        ),
-      )
+      // leading: Padding(
+      //   padding: const EdgeInsets.all(5.0),
+      //   child: helpIconButton(
+      //     Colors.white,
+      //     BoxShape.rectangle,
+      //         () {
+      //       helpNavigateTo(context, CategoryScreen());
+      //     },
+      //     Icons.sort,
+      //     Colors.black,
+      //   ),
+      // )
   );
 }
 
@@ -127,3 +142,4 @@ Widget footerContent(context)
     ),
   );
 }
+

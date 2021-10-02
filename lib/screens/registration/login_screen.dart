@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/auth/auth_firebase.dart';
+import 'package:untitled/auth/data/repository_data.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
@@ -110,7 +111,11 @@ class LoginScreen extends StatelessWidget {
                     helpIconButton(
                         Colors.blue[800],
                         BoxShape.circle,
-                            (){},
+                            (){
+                              AuthRepoImplement authRepoImplement = AuthRepoImplement();
+                              authRepoImplement.loginWithFacebook();
+                              helpNavigateTo(context, ProfileScreen());
+                            },
                         FontAwesome.facebook,
                         Colors.white),
                     helpIconButton(

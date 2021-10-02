@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,13 +30,14 @@ class Auth{
             );
   }
 
-   Future<void> userRegister(String name, phone, email, password) async
+   Future<void> userRegister(String name, phone, email, password, File image) async
    {
       UserModel userModel = UserModel(
        name: name,
        email: email,
        password: password,
        phone: phone,
+       avatar: image.path,
      );
 
     await _auth.createUserWithEmailAndPassword(

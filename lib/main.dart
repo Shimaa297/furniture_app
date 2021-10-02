@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(
             color: Colors.transparent,
+            iconTheme: IconThemeData(
+              color: ColorsApp.primaryColor,
+            ),
             elevation: 0.0,
             //  textTheme: TextTheme(title: AppBarTextStyle),
           ),

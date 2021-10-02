@@ -227,12 +227,12 @@ Widget helpImage(String image, double radius) {
         )
       : Container(
           decoration: BoxDecoration(
-              color: Color(0xffE61368),
+              color: ColorsApp.col,
               borderRadius: BorderRadius.circular(radius),
               gradient: LinearGradient(
                   begin: Alignment(-2, 0),
                   end: Alignment(1, 0),
-                  colors: [Color(0xffE61368), Color(0xff412A44)])),
+                  colors: [ColorsApp.primaryColor, Color(0xff412A44)])),
           // child: Padding(
           //   padding: const EdgeInsets.all(24.0),
           //   child: Image.asset('assets/logo.png'),

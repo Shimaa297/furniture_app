@@ -1,18 +1,52 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/auth/model/user_model.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/header&footer.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
+import 'package:untitled/help/image_picker_widget.dart';
+import 'package:path/path.dart';
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
 
-class ProfileScreen extends StatelessWidget {
+class _ProfileScreenState extends State<ProfileScreen> {
+  File image;
+
+  Future pickImage(ImageSource source) async
+  {
+    try{
+      final image = await ImagePicker().pickImage(source: source);
+      if (image ==null) return;
+
+     // final imageTemporary = File(image.path);
+      final imageTemporary = await saveImagePermanently(image.path);
+      setState(() => this.image = imageTemporary);
+    }on PlatformException catch (e){
+      print('Failed to pick image : $e');
+    }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async
+  {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
   @override
   Widget build(BuildContext context) {
 
     final user = FirebaseAuth.instance.currentUser;
-    Map< String, dynamic> userMap;
+
     return SafeArea(
       child: Scaffold(
         body: StreamBuilder(
@@ -43,20 +77,20 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Stack(alignment: Alignment.bottomRight, children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey[50],
-                            radius: 80,
-                            child: helpImage(
-                                '${user.photoURL}',
-                                200),
+                          ClipOval(
+                            child: image!= null ?
+                                ImageWidget(
+                                    image: image,
+                                    onClicked: (source)=> pickImage(source))
+                            // Image.file(image, fit: BoxFit.contain, height: 150, width: 150,) :
+                           : Container(
+                              height: 150,
+                             width: 150,
+                             child: helpImage(
+                                  '${user.photoURL}',
+                                  200),
+                           ),
                           ),
-                          helpIconButton(
-                            ColorsApp.primaryColor,
-                            BoxShape.circle,
-                                () {},
-                            Icons.edit,
-                            ColorsApp.defTextColor,
-                          )
                         ]),
                         SizedBox(
                           height: 20,

@@ -1,29 +1,66 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/auth/auth_firebase.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
+import 'package:untitled/help/image_picker_widget.dart';
 import 'package:untitled/provider/provider.dart';
 import 'package:untitled/provider/provider_signIn.dart';
 import 'package:untitled/screens/home_page.dart';
 import 'package:untitled/screens/profile/profile.dart';
 
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
 
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   Auth auth = Auth();
+
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   TextEditingController _emailController = TextEditingController();
+
   TextEditingController _passwordController = TextEditingController();
+
   TextEditingController _nameController = TextEditingController();
+
   TextEditingController _phoneController = TextEditingController();
 
 
+  File image;
+  Future pickImage(ImageSource source) async
+  {
+    try{
+      final image = await ImagePicker().pickImage(source: source);
+      if (image ==null) return;
+
+      // final imageTemporary = File(image.path);
+      final imageTemporary = await saveImagePermanently(image.path);
+      setState(() => this.image = imageTemporary);
+    }on PlatformException catch (e){
+      print('Failed to pick image : $e');
+    }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async
+  {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ProviderApp>(context);
@@ -38,6 +75,43 @@ class RegisterScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:[
+                    ClipOval(
+                        child: image!= null ?
+                        ImageWidget(
+                            image: image,
+                            onClicked: (source)=> pickImage(source))
+                        // Image.file(image, fit: BoxFit.contain, height: 150, width: 150,) :
+                            : CircleAvatar(
+                          backgroundColor: ColorsApp.col,
+                               radius: 40,
+                          child: InkWell(
+                            onTap: ()=> showModalBottomSheet(
+                                context: context,
+                                builder: (context)=> Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ListTile(
+                                      onTap: ()=> Navigator.of(context).pop(ImageSource.camera),
+                                      leading: Icon(Icons.camera_alt),
+                                      title: Text('Camera', style: BodyTextStyle,),
+                                    ),
+                                    ListTile(
+                                      onTap: ()=> Navigator.of(context).pop(ImageSource.gallery),
+                                      leading: Icon(Icons.photo),
+                                      title: Text('Gallery', style: BodyTextStyle,),
+                                    )
+                                  ],
+                                )
+                            ),
+                            child: Icon(Icons.add_a_photo_outlined),
+                          ),
+                        )
+                       // FlutterLogo(size: 150,)
+                      // helpImage(
+                      //     '${user.photoURL}',
+                      //     200),
+                    ),
+                    SizedBox(height: 20,),
                     helpTextField(
                       controller: _nameController,
                       labelText: 'name',
@@ -185,11 +259,13 @@ class RegisterScreen extends StatelessWidget {
       ),
     );
   }
+
   register(context) async {
     if(_globalKey.currentState.validate())
     {
       _globalKey.currentState.save();
-      await auth.userRegister(_emailController.text, _passwordController.text, _nameController.text, _phoneController.text);
+      helpLoading();
+      await auth.userRegister(_emailController.text, _passwordController.text, _nameController.text, _phoneController.text, image);
       print('Register Done');
       helpNavigateTo(context, HomePage());
     }
@@ -197,6 +273,7 @@ class RegisterScreen extends StatelessWidget {
       auth.showError('Some thing is Error', context);
     }
   }
+
   registerFunction(context) {
     final String email = _emailController.text.trim();
     final String password = _passwordController.text.trim();
@@ -209,7 +286,7 @@ class RegisterScreen extends StatelessWidget {
       if(password.isEmpty){
         print("Password is Empty");
       } else{
-        auth.userRegister(name, phone, email, password);
+        auth.userRegister(name, phone, email, password, image);
       }
        helpNavigateTo(context, HomePage());
     }

@@ -10,6 +10,8 @@ import 'package:untitled/help/responsive_ui/responsive.dart';
 import 'package:untitled/provider/provider.dart';
 import 'package:untitled/screens/recommend_screen.dart';
 
+import 'drawer/main_drawer.dart';
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class MobileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: headerContent(context, ''),
+      drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: SizedBox(
           height: helpHeight(context)*1.5,
@@ -238,9 +240,9 @@ class WebHomeContent extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            Text('RERCA'),
+            Text('ELAN'),
             Text(
-              'CASH',
+              'DALOS',
               style: TextStyle(
                   color: ColorsApp.secColor,
                   fontSize: 25,
