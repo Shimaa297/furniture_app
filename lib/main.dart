@@ -5,11 +5,11 @@ import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/provider/provider.dart';
 import 'package:untitled/screens/onBoarding/onBoarding_screen.dart';
 
+import 'admin_panal/screens/home_page.dart';
 import 'auth/auth_firebase.dart';
 import 'provider/provider_signIn.dart';
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -19,12 +19,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-    ChangeNotifierProvider<ProviderApp>(
-    create: (context) => ProviderApp()),
-    ChangeNotifierProvider<ProviderSignIn>(
-    create: (context) => ProviderSignIn()),
-    ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ProviderApp>(create: (context) => ProviderApp()),
+        ChangeNotifierProvider<ProviderSignIn>(
+            create: (context) => ProviderSignIn()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -40,9 +40,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: OnBoardScreen(),
+        //  home: HomeAdmin(),
       ),
     );
   }
 }
-
-

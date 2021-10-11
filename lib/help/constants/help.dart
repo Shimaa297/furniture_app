@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:untitled/help/constants/constant.dart';
@@ -21,6 +22,13 @@ const defaultColor = Color(0xFF93D8F8);
 // 10. Address(location)
 
 //List<Address> address;
+
+Future helpShowToast(String message) async
+{
+  await Fluttertoast.cancel();
+
+  Fluttertoast.showToast(msg: message, fontSize: 18);
+}
 Widget helpTextField({
   String labelText,
   validator,
@@ -78,11 +86,7 @@ Widget helpButton({
       elevation: elevation,
       child: Text(
         text,
-        style: GoogleFonts.cairo(
-          color: textColor,
-          fontWeight: FontWeight.w600,
-          fontSize: fontSize,
-        ),
+        style: SubtitleTextStyle,
       ),
     ),
   );

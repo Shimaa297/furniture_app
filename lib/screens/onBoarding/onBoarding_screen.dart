@@ -25,15 +25,19 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   List<BoardingModel> boarding = [
     BoardingModel(
         title: ' Search Advance Filters',
-        image: 'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
-        body: 'Discover your property with advance filters like price distance and calender'),
+        image:
+            'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
+        body:
+            'Discover your property with advance filters like price distance and calender'),
     BoardingModel(
         title: ' Lower prices',
-        image: 'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
+        image:
+            'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
         body: 'The best models at the lowest prices'),
     BoardingModel(
         title: ' On Boarding Title 3',
-        image: 'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
+        image:
+            'https://www.furniturebank.org/wp-content/uploads/Helping-with-Furniture-Logo-300x300.jpg',
         body: 'Sub Title on boarding title 3'),
   ];
 
@@ -43,43 +47,37 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       appBar: AppBar(
         actions: [
           TextButton(
-          //  onPressed: submit,
-            onPressed: ()
-            {
+            //  onPressed: submit,
+            onPressed: () {
               helpNavigateTo(context, HomePage());
             },
-            child: Text(
-              'SKIP',
-              //  textAlign: TextAlign.right,
-              style: BodyTextStyle
-            ),
+            child: Text('SKIP',
+                //  textAlign: TextAlign.right,
+                style: BodyTextStyle),
           )
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             helpIconButton(
               ColorsApp.primaryColor,
               BoxShape.rectangle,
-                  (){},
+              () {},
               Icons.single_bed_sharp,
               Colors.white,
             ),
             Expanded(
               child: PageView.builder(
                 controller: boardController,
-                onPageChanged: (int index)
-                {
-                  if(index ==boarding.length - 1 )
-                  {
+                onPageChanged: (int index) {
+                  if (index == boarding.length - 1) {
                     setState(() {
                       isLast = true;
                     });
-                  }else
-                  {
+                  } else {
                     setState(() {
                       isLast = false;
                     });
@@ -103,19 +101,19 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 spacing: 5.0,
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             helpButton(
-                text: 'Skip',
+                text: 'Continue',
                 background: ColorsApp.primaryColor,
                 fontSize: 20.0,
                 width: 180,
                 elevation: 20.0,
-                radius:50.0,
-                function: ()
-                {
+                radius: 50.0,
+                function: () {
                   helpNavigateTo(context, LoginScreen());
-                }
-            ),
+                }),
           ],
         ),
       ),
@@ -123,27 +121,24 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   }
 
   Widget buildBoardingItem(BoardingModel model) => Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-        height: 250,
-        child: helpImage(model.image, 0.0)
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      Text(
-        model.title,
-        style: TitleTextStyle,
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Text(
-        model.body,
-        textAlign: TextAlign.center,
-        style: BodyTextStyle.copyWith(color: ColorsApp.grayColor),
-      ),
-    ],
-  );
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(height: 250, child: helpImage(model.image, 0.0)),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            model.title,
+            style: TitleTextStyle,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            model.body,
+            textAlign: TextAlign.center,
+            style: BodyTextStyle.copyWith(color: ColorsApp.grayColor),
+          ),
+        ],
+      );
 }

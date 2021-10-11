@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled/admin_panal/model/product.dart';
+import 'package:untitled/help/animate_button.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/header&footer.dart';
 import 'package:untitled/help/constants/styles.dart';
@@ -18,31 +20,31 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           body: ResponsiveLayout(
-            mobileWidget: MobileContent(),
-            websiteWidget: WebHomeContent(),
-          )),
+        mobileWidget: MobileContent(),
+        websiteWidget: WebHomeContent(),
+      )),
     );
   }
 }
 
 class MobileContent extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: helpHeight(context)*1.5,
+          height: helpHeight(context) * 1.5,
           child: Stack(
             children: [
               Container(
                 height: 280,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: ColorsApp.col,
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))
-                ),
+                    color: ColorsApp.col,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50))),
               ),
               headerContent(context, ''),
               Positioned(
@@ -72,12 +74,12 @@ class MobileContent extends StatelessWidget {
                                   color: Colors.grey.withOpacity(0.16),
                                   spreadRadius: 2,
                                   blurRadius: 3,
-                                  offset: Offset(0, 3), // changes position of shadow
+                                  offset: Offset(
+                                      0, 3), // changes position of shadow
                                 ),
-                              ]
-                          ),
+                              ]),
                           child: helpTextField(
-                            labelText: 'Search Location',
+                            labelText: 'Search ',
                             prefixIcon: Icon(
                               Icons.search,
                               color: ColorsApp.grayColor,
@@ -89,7 +91,7 @@ class MobileContent extends StatelessWidget {
                         helpIconButton(
                           ColorsApp.primaryColor,
                           BoxShape.circle,
-                              () {},
+                          () {},
                           Icons.filter_alt_sharp,
                           Colors.black,
                         ),
@@ -114,7 +116,7 @@ class MobileContent extends StatelessWidget {
                                 helpIconButton(
                                   ColorsApp.secColor,
                                   BoxShape.circle,
-                                      () {},
+                                  () {},
                                   Icons.home,
                                   Colors.white,
                                 ),
@@ -134,7 +136,9 @@ class MobileContent extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: List.generate(
-                                    5, (index) => buildListCategory(context, index)),
+                                    5,
+                                    (index) =>
+                                        buildListCategory(context, index)),
                               ),
                             ),
                           ],
@@ -144,20 +148,16 @@ class MobileContent extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Recommended',
-                            style: SubtitleTextStyle),
+                        Text('Recommended', style: SubtitleTextStyle),
                         TextButton(
-                          onPressed: ()
-                          {
+                          onPressed: () {
                             helpNavigateTo(context, MobileRecommendedScreen());
                           },
                           child: Text(
                             'See all',
-                            style: BodyTextStyle
-                                .copyWith(
+                            style: BodyTextStyle.copyWith(
                                 fontSize: 12,
-                                decoration: TextDecoration.underline
-                            ),
+                                decoration: TextDecoration.underline),
                           ),
                         )
                       ],
@@ -165,8 +165,7 @@ class MobileContent extends StatelessWidget {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children:
-                        List.generate(
+                        children: List.generate(
                             5, (index) => buildListProduct(context)),
                       ),
                     ),
@@ -177,6 +176,7 @@ class MobileContent extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: floatingAnimate(),
     );
   }
 
@@ -187,7 +187,7 @@ class MobileContent extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               provider.selectCategoryHome(index);
             },
             child: Container(
@@ -233,7 +233,6 @@ class MobileContent extends StatelessWidget {
 }
 
 class WebHomeContent extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,8 +256,7 @@ class WebHomeContent extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     'Category'.toUpperCase(),
-                    style: BodyTextStyle
-                        .copyWith(color: ColorsApp.secColor),
+                    style: BodyTextStyle.copyWith(color: ColorsApp.secColor),
                   )),
               SizedBox(
                 width: 50,
@@ -267,8 +265,7 @@ class WebHomeContent extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     'Products'.toUpperCase(),
-                    style: BodyTextStyle
-                        .copyWith(color: ColorsApp.secColor),
+                    style: BodyTextStyle.copyWith(color: ColorsApp.secColor),
                   )),
               SizedBox(
                 width: 50,
@@ -332,13 +329,14 @@ class WebHomeContent extends StatelessWidget {
                           horizontal: 50, vertical: 80),
                       child: Text(
                         'Find the \nBest Apartment',
-                        style: TitleTextStyle.copyWith(color: ColorsApp.primaryColor, fontSize: 40),
+                        style: TitleTextStyle.copyWith(
+                            color: ColorsApp.primaryColor, fontSize: 40),
                       ),
                     ),
                     Text(
                       'Carefully curated trinkets make your house a\nhome, and express your personality. But it\'s not\njust what you display, it\'s how you display it.',
-                      style: SubtitleTextStyle
-                          .copyWith(color: ColorsApp.grayColor, height: 2),
+                      style: SubtitleTextStyle.copyWith(
+                          color: ColorsApp.grayColor, height: 2),
                     ),
                     SizedBox(
                       height: 50,
@@ -413,16 +411,16 @@ class WebHomeContent extends StatelessWidget {
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 30.0,
                                       mainAxisSpacing: 30.0,
-                                      children:
-                                        List.generate(
-                                            6, (index) => categoryList(index, context)),
+                                      children: List.generate(
+                                          6,
+                                          (index) =>
+                                              categoryList(index, context)),
                                       padding: EdgeInsets.zero,
                                       physics: BouncingScrollPhysics(),
                                       childAspectRatio: 28.0 / 10.0,
                                       shrinkWrap: true,
                                     ),
-                                  )
-                              ),
+                                  )),
                             ],
                           ),
                         ),
@@ -440,11 +438,8 @@ class WebHomeContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Text(
-                'Recommended',
-                textAlign: TextAlign.center,
-                style: TitleTextStyle
-              ),
+              child: Text('Recommended',
+                  textAlign: TextAlign.center, style: TitleTextStyle),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -453,19 +448,16 @@ class WebHomeContent extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children:
-                    List.generate(4, (index) => buildListProduct(context)),
+                        List.generate(4, (index) => buildListProduct(context)),
                   ),
                 ),
-                helpIconButton(
-                    ColorsApp.primaryColor,
-                    BoxShape.circle,
-                        (){},
-                    Icons.arrow_forward_ios,
-                    Colors.black
-                )
+                helpIconButton(ColorsApp.primaryColor, BoxShape.circle, () {},
+                    Icons.arrow_forward_ios, Colors.black)
               ],
             ),
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             footerContent(context),
           ],
         ),
@@ -473,5 +465,3 @@ class WebHomeContent extends StatelessWidget {
     );
   }
 }
-
-

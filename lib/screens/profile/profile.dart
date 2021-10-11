@@ -12,6 +12,7 @@ import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/help/image_picker_widget.dart';
 import 'package:path/path.dart';
+
 class ProfileScreen extends StatefulWidget {
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -20,31 +21,29 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   File image;
 
-  Future pickImage(ImageSource source) async
-  {
-    try{
-      final image = await ImagePicker().pickImage(source: source);
-      if (image ==null) return;
+  Future pickImage(ImageSource source) async {
+    try {
+      // final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
 
-     // final imageTemporary = File(image.path);
+      // final imageTemporary = File(image.path);
       final imageTemporary = await saveImagePermanently(image.path);
       setState(() => this.image = imageTemporary);
-    }on PlatformException catch (e){
+    } on PlatformException catch (e) {
       print('Failed to pick image : $e');
     }
   }
 
-  Future<File> saveImagePermanently(String imagePath) async
-  {
+  Future<File> saveImagePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
     final name = basename(imagePath);
     final image = File('${directory.path}/$name');
 
     return File(imagePath).copy(image.path);
   }
+
   @override
   Widget build(BuildContext context) {
-
     final user = FirebaseAuth.instance.currentUser;
 
     return SafeArea(
@@ -52,7 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-
             if (snapshot.connectionState == ConnectionState.waiting)
               return helpLoading();
             else if (snapshot.hasData) {
@@ -78,18 +76,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Stack(alignment: Alignment.bottomRight, children: [
                           ClipOval(
-                            child: image!= null ?
-                                ImageWidget(
+                            child: image != null
+                                ? ImageWidget(
                                     image: image,
-                                    onClicked: (source)=> pickImage(source))
-                            // Image.file(image, fit: BoxFit.contain, height: 150, width: 150,) :
-                           : Container(
-                              height: 150,
-                             width: 150,
-                             child: helpImage(
-                                  '${user.photoURL}',
-                                  200),
-                           ),
+                                    onClicked: (source) => pickImage(source))
+                                // Image.file(image, fit: BoxFit.contain, height: 150, width: 150,) :
+                                : Container(
+                                    height: 150,
+                                    width: 150,
+                                    child: helpImage('${user.photoURL}', 200),
+                                  ),
                           ),
                         ]),
                         SizedBox(
@@ -157,9 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           CircleAvatar(
                             backgroundColor: Colors.grey[50],
                             radius: 80,
-                            child: helpImage(
-                              user.photoURL,
-                                200),
+                            child: helpImage(user.photoURL, 200),
                           ),
                           helpIconButton(
                             ColorsApp.primaryColor,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/help/constants/constant.dart';
 
-
 const LargeTextSize = 26.0;
 const MediumTextSize = 20.0;
 const BodyTextSize = 16.0;
@@ -16,22 +15,22 @@ const AppBarTextStyle = TextStyle(
 );
 
 const TitleTextStyle = TextStyle(
- // fontFamily: FontNameDefault,
+  // fontFamily: FontNameDefault,
   fontWeight: FontWeight.bold,
   fontSize: LargeTextSize,
   color: Color(0xFF2F2D51),
 );
 
 const SubtitleTextStyle = TextStyle(
- // fontFamily: FontNameDefault,
+  // fontFamily: FontNameDefault,
   fontWeight: FontWeight.w700,
   fontSize: MediumTextSize,
   color: Color(0xFF2F2D51),
 );
 
 const BodyTextStyle = TextStyle(
- // fontFamily: FontNameDefault,
-  fontWeight: FontWeight.w700,
+  // fontFamily: FontNameDefault,
+  fontWeight: FontWeight.normal,
   fontSize: BodyTextSize,
   color: Color(0xFF2F2D51),
 );
