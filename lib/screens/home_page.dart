@@ -176,7 +176,7 @@ class MobileContent extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: floatingAnimate(),
+      floatingActionButton: floatingAnimate(context),
     );
   }
 
