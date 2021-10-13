@@ -48,6 +48,8 @@ dependencies:
   flutter_facebook_auth: ^3.5.2
   flutter_speed_dial: ^4.4.0
   fluttertoast: ^8.0.8
+  url_launcher: ^6.0.12
+  flutter_phone_direct_caller: ^2.0.0
 
 
 

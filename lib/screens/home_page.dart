@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled/admin_panal/model/product.dart';
 import 'package:untitled/help/animate_button.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/header&footer.dart';

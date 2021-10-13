@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled/auth/auth_firebase.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'constants/constant.dart';
 import 'constants/help.dart';
@@ -104,6 +106,8 @@ class ImagePickerApp extends StatefulWidget {
 class _ImagePickerState extends State<ImagePickerApp> {
   File _image;
   final picker = ImagePicker();
+  bool isUpload = false;
+  Auth auth = Auth();
 
   Future getImageFromCamera() async {
     final _pickImage = await picker.pickImage(source: ImageSource.camera);
@@ -111,6 +115,7 @@ class _ImagePickerState extends State<ImagePickerApp> {
     setState(() {
       if (_pickImage != null) {
         _image = File(_pickImage.path);
+       // UploadAndUpdate();
       } else {
         print("No Image Selected");
       }
@@ -123,11 +128,22 @@ class _ImagePickerState extends State<ImagePickerApp> {
     setState(() {
       if (_pickImage != null) {
         _image = File(_pickImage.path);
+       // UploadAndUpdate();
       } else {
         print("No Image Selected");
       }
     });
   }
+
+  // to store
+
+  // UploadAndUpdate()async
+  // {
+  //   setState(() => isUpload = true);
+  //   final _storage = FirebaseStorage.instance;
+  //   var file = File(_image.path);
+  //   var snapshot = await _storage.ref().child('usersPhotos/${auth}')
+  // }
 
   @override
   Widget build(BuildContext context) {
