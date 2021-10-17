@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/provider/provider.dart';
+import 'package:untitled/screens/details_product.dart';
 import 'help.dart';
 
 const kWebWidth = 1392;
@@ -62,85 +63,88 @@ buildListProduct(context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),
     child: helpContainerShadow(
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 150,
-            width: 290,
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                helpImage(
-                    'https://media-cdn.tripadvisor.com/media/photo-s/1d/91/47/a6/our-double-deluxe-rooms.jpg',
-                    20.0),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: helpIconButton(
-                    ColorsApp.primaryColor,
-                    BoxShape.circle,
-                        () {},
-                    Icons.headset_mic_outlined,
-                    Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      '\$54',
-                      style: BodyTextStyle,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'per day',
-                      style: BodyTextStyle
-                          .copyWith(color: ColorsApp.grayColor),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  'Sunny Apartment',
-                  style: BodyTextStyle,
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '1200 / 84K',
-                      style: BodyTextStyle
-                          .copyWith(color: ColorsApp.grayColor),
-                    ),
-                    SizedBox(
-                      width: 120,
-                    ),
-                    helpIconButton(
-                      ColorsApp.secColor,
+      GestureDetector(
+        onTap: ()=> helpNavigateTo(context, DetailsScreen()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 150,
+              width: 290,
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  helpImage(
+                      'https://media-cdn.tripadvisor.com/media/photo-s/1d/91/47/a6/our-double-deluxe-rooms.jpg',
+                      20.0),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: helpIconButton(
+                      ColorsApp.primaryColor,
                       BoxShape.circle,
                           () {},
-                      Icons.favorite,
-                      Colors.white,
+                      Icons.headset_mic_outlined,
+                      Colors.black54,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        '\$54',
+                        style: BodyTextStyle,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'per day',
+                        style: BodyTextStyle
+                            .copyWith(color: ColorsApp.grayColor),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'Sunny Apartment',
+                    style: BodyTextStyle,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '1200 / 84K',
+                        style: BodyTextStyle
+                            .copyWith(color: ColorsApp.grayColor),
+                      ),
+                      SizedBox(
+                        width: 120,
+                      ),
+                      helpIconButton(
+                        ColorsApp.secColor,
+                        BoxShape.circle,
+                            () {},
+                        Icons.favorite,
+                        Colors.white,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     ),
   );

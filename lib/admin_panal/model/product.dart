@@ -5,7 +5,7 @@ class Product {
   String pDescription;
   String pPrice;
   String pCategory;
-  File pImage;
+  String pImage;
 
   Product(
       {this.pName,

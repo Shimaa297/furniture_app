@@ -4,19 +4,40 @@ import 'package:provider/provider.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/provider/provider.dart';
 import 'package:untitled/screens/onBoarding/onBoarding_screen.dart';
-
-import 'admin_panal/screens/home_page.dart';
-import 'auth/auth_firebase.dart';
+import 'package:untitled/screens/registration/login_screen.dart';
 import 'provider/provider_signIn.dart';
+import 'screens/home_page.dart';
+import 'sharedPrefernce/cache_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+
+  await CacheHelper.init();
+  String token = CacheHelper.getData(key: 'token');
+  bool onBoarding = CacheHelper.getData(key: 'onBoarding');
+  bool isDark = CacheHelper.getData(key: 'isDark');
+  Widget widget;
+
+  if(onBoarding != null){
+    //if(token != null)
+    //  widget = HomePage();
+     widget = LoginScreen();
+  } else{
+    widget = OnBoardScreen();
+  }
+
+  runApp(MyApp(
+    startWidget: widget,
+    isDark: isDark,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final Widget startWidget;
+  final bool isDark;
+  MyApp({this.startWidget, this.isDark});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -39,7 +60,7 @@ class MyApp extends StatelessWidget {
             //  textTheme: TextTheme(title: AppBarTextStyle),
           ),
         ),
-        home: OnBoardScreen(),
+          home: startWidget,
         //  home: HomeAdmin(),
       ),
     );

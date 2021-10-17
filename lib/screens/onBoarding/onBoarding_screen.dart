@@ -5,6 +5,7 @@ import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/screens/home_page.dart';
 import 'package:untitled/screens/registration/login_screen.dart';
+import 'package:untitled/sharedPrefernce/cache_helper.dart';
 
 class BoardingModel {
   final String title;
@@ -41,6 +42,15 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         body: 'Sub Title on boarding title 3'),
   ];
 
+ void skip()
+ {
+   CacheHelper.saveData(key: 'onBoarding', value: true).then(
+           (value) {
+             if(value){
+               helpNavigateTo(context, LoginScreen());
+             }
+           });
+ }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,12 +58,11 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         actions: [
           TextButton(
             //  onPressed: submit,
-            onPressed: () {
-              helpNavigateTo(context, HomePage());
-            },
+            onPressed: ()=> skip(),
             child: Text('SKIP',
                 //  textAlign: TextAlign.right,
-                style: BodyTextStyle),
+                style: BodyTextStyle
+            ),
           )
         ],
       ),

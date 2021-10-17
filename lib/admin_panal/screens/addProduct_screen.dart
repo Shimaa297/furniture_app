@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/admin_panal/model/product.dart';
@@ -17,6 +19,7 @@ class AddProduct extends StatelessWidget {
   TextEditingController _price = TextEditingController();
 
   final _store = Store();
+  File image = ImagePickerApp() as File;
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -33,59 +36,7 @@ class AddProduct extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ClipOval(
-                            child: image != null
-                                // ? ImageWidget(
-                                //     image: image,
-                                //     onClicked: (source) => pickImage(source))
-                                ? Image.file(
-                                    image,
-                                    fit: BoxFit.contain,
-                                    height: 150,
-                                    width: 150,
-                                  )
-                                : CircleAvatar(
-                                    backgroundColor: ColorsApp.col,
-                                    radius: 70,
-                                    child: InkWell(
-                                      onTap: () => showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  ListTile(
-                                                    onTap: () => Navigator.of(
-                                                            context)
-                                                        .pop(
-                                                            ImageSource.camera),
-                                                    leading:
-                                                        Icon(Icons.camera_alt),
-                                                    title: Text(
-                                                      'Camera',
-                                                      style: BodyTextStyle,
-                                                    ),
-                                                  ),
-                                                  ListTile(
-                                                    onTap: () =>
-                                                        Navigator.of(context)
-                                                            .pop(ImageSource
-                                                                .gallery),
-                                                    leading: Icon(Icons.photo),
-                                                    title: Text(
-                                                      'Gallery',
-                                                      style: BodyTextStyle,
-                                                    ),
-                                                  )
-                                                ],
-                                              )),
-                                      child: Icon(Icons.add_a_photo_outlined),
-                                    ),
-                                  )
-                            // FlutterLogo(size: 150,)
-                            // helpImage(
-                            //     '${user.photoURL}',
-                            //     200),
-                            ),
+                        ImagePickerApp(),
                         SizedBox(
                           height: 20,
                         ),
@@ -179,10 +130,12 @@ class AddProduct extends StatelessWidget {
                             if (_globalKey.currentState.validate()) {
                               _globalKey.currentState.save();
                               _store.addProduct(Product(
+                                  pImage: image.path,
                                   pName: _name.text,
                                   pCategory: _category.text,
                                   pDescription: _description.text,
-                                  pPrice: _price.text));
+                                  pPrice: _price.text,
+                              ));
                             }
                           },
                           // function: submitLogin(context),

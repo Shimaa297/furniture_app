@@ -102,7 +102,7 @@ Widget helpContainerShadow(Widget content) => Container(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.12),
+              color: Colors.grey.withOpacity(0.15),
               spreadRadius: 2,
               blurRadius: 3,
               offset: Offset(0, 3), // changes position of shadow
@@ -151,7 +151,29 @@ double helpWidth(BuildContext context) {
 double helpHeight(BuildContext context) {
   return MediaQuery.of(context).size.height;
 }
-
+String helpLanguage = 'en';
+helpCurrency(String s, Color c, double d) {
+  String currency;
+  if (helpLanguage == 'en')
+    currency = "SAR";
+  else
+    currency = "رس";
+  return RichText(
+    text: TextSpan(
+      children: <TextSpan>[
+        TextSpan(
+          text: '${double.parse(s).toStringAsFixed(2) ?? ''}',
+          style: TextStyle(fontSize: d, fontWeight: FontWeight.w500, color: c),
+        ),
+        TextSpan(
+          text: '$currency',
+          style:
+          TextStyle(fontSize: d - 3, fontWeight: FontWeight.w500, color: c),
+        ),
+      ],
+    ),
+  );
+}
 Widget helpLoading() {
   return Center(
     child: Container(
@@ -180,7 +202,7 @@ Widget helpImage(String image, double radius) {
   return image != null
       ? CachedNetworkImage(
           imageUrl: image,
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
           httpHeaders: {
             'Content-Type': 'application/json;charset=UTF-8',
             'Charset': 'utf-8'
@@ -194,7 +216,7 @@ Widget helpImage(String image, double radius) {
                 borderRadius: BorderRadius.circular(radius),
                 image: DecorationImage(
                   image: image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
             );

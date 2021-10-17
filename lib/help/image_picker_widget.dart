@@ -181,12 +181,17 @@ class _ImagePickerState extends State<ImagePickerApp> {
                   child: Icon(Icons.add_a_photo_outlined),
                 ),
               )
-            : CircleAvatar(
-                radius: 70,
-                child: Image.file(
-                  _image,
-                  fit: BoxFit.contain,
+            : Container(
+               height: 170,
+               width: 170,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(70),
+                    child: Image.file(
+                      _image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ));
+            );
   }
 }

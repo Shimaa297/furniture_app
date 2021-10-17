@@ -11,6 +11,7 @@ import 'package:untitled/provider/provider_signIn.dart';
 import 'package:untitled/screens/home_page.dart';
 import 'package:untitled/screens/profile/profile.dart';
 import 'package:untitled/screens/registration/register_screen.dart';
+import 'package:untitled/sharedPrefernce/cache_helper.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -134,7 +135,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 20,),
                 helpButton(
                   text: 'Login',
-                  function: (){login(context);},
+                  function: ()=>login(context),
                   // function: submitLogin(context),
                   textColor: ColorsApp.defTextColor,
                   radius: 50.0,
@@ -157,13 +158,16 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  login(context) async {
+  void login(context) async {
     if(_globalKey.currentState.validate())
     {
       _globalKey.currentState.save();
       await auth.userLogin(_emailController.text, _passwordController.text);
       print('Login Done');
-      helpNavigateTo(context, HomePage());
+      CacheHelper.saveData(key: 'token', value: auth.userModel.id).then((value){
+        helpNavigateTo(context, HomePage());
+      });
+      // helpShowToast('message')
     }
     else{
       auth.showError('Some thing is Error', context);

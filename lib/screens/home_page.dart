@@ -21,7 +21,9 @@ class HomePage extends StatelessWidget {
           body: ResponsiveLayout(
         mobileWidget: MobileContent(),
         websiteWidget: WebHomeContent(),
-      )),
+      ),
+        floatingActionButton: floatingAnimate(context),
+      ),
     );
   }
 }
@@ -175,7 +177,6 @@ class MobileContent extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: floatingAnimate(context),
     );
   }
 
