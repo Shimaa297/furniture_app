@@ -20,8 +20,8 @@ void main() async {
   Widget widget;
 
   if(onBoarding != null){
-    //if(token != null)
-    //  widget = HomePage();
+    if(token != null)
+      widget = HomePage();
      widget = LoginScreen();
   } else{
     widget = OnBoardScreen();

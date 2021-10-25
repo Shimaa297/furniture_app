@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -159,12 +160,13 @@ class LoginScreen extends StatelessWidget {
   }
 
   void login(context) async {
+    final user = FirebaseAuth.instance.currentUser;
     if(_globalKey.currentState.validate())
     {
       _globalKey.currentState.save();
       await auth.userLogin(_emailController.text, _passwordController.text);
       print('Login Done');
-      CacheHelper.saveData(key: 'token', value: auth.userModel.id).then((value){
+      CacheHelper.saveData(key: 'token', value: user.uid).then((value){
         helpNavigateTo(context, HomePage());
       });
       // helpShowToast('message')
