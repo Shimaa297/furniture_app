@@ -52,6 +52,7 @@ dependencies:
   flutter_phone_direct_caller: ^2.0.0
   shared_preferences: ^2.0.5
   page_transition: ^2.0.4
+  flutter_switch: ^0.0.2
 
 
 dev_dependencies:

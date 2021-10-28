@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:untitled/help/constants/constant.dart';
@@ -41,11 +42,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return File(imagePath).copy(image.path);
   }
-
+  bool val = false;
+  bool status = false;
+  bool closeApp = false;
+  void onSwitch(bool value) {
+    setState(() {
+      val = value;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-
     return SafeArea(
       child: Scaffold(
         body: StreamBuilder(
@@ -54,56 +61,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (snapshot.connectionState == ConnectionState.waiting)
               return helpLoading();
             else if (snapshot.hasData) {
-              return Stack(
+              return Column(
                 children: [
-                  Positioned(
-                    top: -100,
-                    left: -100,
-                    right: -100,
-                    child: ClipOval(
-                      child: Container(
-                          color: ColorsApp.col,
-                          height: 250.0,
-                          width: double.infinity),
-                    ),
-                  ),
                   headerContent(context, 'Profile'),
-                  Positioned(
-                    top: helpHeight(context) - 610,
-                    left: 20,
-                    right: 20,
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Stack(alignment: Alignment.bottomRight, children: [
-                          ClipOval(
-                            child: image != null
-                                ? ImageWidget(
-                                    image: image,
-                                    onClicked: (source) => pickImage(source))
-                                // Image.file(image, fit: BoxFit.contain, height: 150, width: 150,) :
-                                : Container(
-                                    height: 150,
-                                    width: 150,
-                                    child: helpImage('${user.photoURL}', 200),
-                                  ),
-                          ),
-                        ]),
+                        Row(
+                          children: [
+                            ClipOval(
+                              child: image != null
+                                  ? Container(
+                                height: 120,
+                                width: 120,
+                                child: helpImage('${user.photoURL}', 200),
+                              )
+                              // Image.file(image, fit: BoxFit.contain, height: 150, width: 150,) :
+                                  : CircleAvatar(
+                                radius: 50,
+                                  backgroundColor: ColorsApp.col,
+                                  child: Icon(Icons.person)
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${user.displayName}',
+                                  style: TitleTextStyle,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  '${user.email}',
+                                  style: BodyTextStyle,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                         SizedBox(
-                          height: 20,
+                          height: 30,
                         ),
-                        Text(
-                          '${user.displayName}',
-                          style: TitleTextStyle,
-                        ),
+                        Text('Setting', style: SubtitleTextStyle,),
                         SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          '${user.email}',
-                          style: SubtitleTextStyle,
-                        ),
-                        SizedBox(
-                          height: 50,
+                          height: 10,
                         ),
                         helpSetting(
                           iconColor: ColorsApp.defTextColor,
@@ -119,9 +127,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           textColor: ColorsApp.defTextColor,
                           function: () {},
                         ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text('Notification', style: SubtitleTextStyle,),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Add Notifications',
+                              style: BodyTextStyle
+                            ),
+                            FlutterSwitch(
+                              padding: 4.0,
+                              toggleSize: 30.0,
+                              width: 60.0,
+                              inactiveColor: ColorsApp.grayColor,
+                              value: val,
+                              onToggle: onSwitch,
+                              activeColor: ColorsApp.primaryColor,
+                            ),
+                            // Switch(
+                            //   value: val,
+                            //   onChanged: onSwitch,
+                            //   activeColor: ColorsApp.primaryColor,
+                            //   activeTrackColor: ColorsApp.col,
+                            // ),
+                          ],
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               );
             } else if (snapshot.hasError) {

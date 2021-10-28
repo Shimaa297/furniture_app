@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/provider/provider.dart';
+import 'package:untitled/screens/category/collection_screen.dart';
 import 'package:untitled/screens/details_product.dart';
 import 'help.dart';
 
@@ -58,7 +59,69 @@ Widget categoryList(index, context)
     ),
   );
 }
-
+buildListCollection(context)
+{
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+    child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: Stack(
+          children: [
+            Container(
+              height: helpHeight(context) * .3,
+              width: helpWidth(context) * .7,
+              child: helpImage('https://edge.thesofaandchair.co.uk/23/157517/2.jpg', 20.0),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                color: Colors.black12,
+              ),
+              height: helpHeight(context) * .3,
+              width: helpWidth(context) * .7,
+            ),
+            Positioned(
+              bottom: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Modern Dining', style: TitleTextStyle.copyWith(color: Colors.white),),
+                        Container(
+                          width: helpWidth(context) * .5,
+                          child: Text(
+                            'Carefully curated trinkets make your house',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: BodyTextStyle.copyWith(color: Colors.white,),
+                          ),
+                        ),
+                      ],
+                    ),
+                    helpIconButton(
+                        ColorsApp.primaryColor,
+                        BoxShape.circle,
+                            ()
+                        {
+                          helpNavigateTo(context, CollectionScreen());
+                        },
+                        Icons.arrow_forward,
+                        Colors.white
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Text('')
+          ],
+        ),
+    ),
+  );
+}
 buildListProduct(context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),

@@ -149,7 +149,7 @@ class MobileContent extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Recommended', style: SubtitleTextStyle),
+                        Text('Collection', style: SubtitleTextStyle),
                         TextButton(
                           onPressed: () {
                             helpNavigateTo(context, MobileRecommendedScreen());
@@ -167,7 +167,10 @@ class MobileContent extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: List.generate(
-                            5, (index) => buildListProduct(context)),
+                            5,
+                                (index) => buildListCollection(context)
+                                  //  buildListProduct(context)
+                        ),
                       ),
                     ),
                   ],
@@ -318,7 +321,7 @@ class WebHomeContent extends StatelessWidget {
               Container(
                 height: helpHeight(context) * .7,
                 width: double.infinity,
-                color: Colors.black45,
+                color: Colors.black12,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

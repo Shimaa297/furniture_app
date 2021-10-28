@@ -22,7 +22,6 @@ Widget headerContent(
     )
 {
   final user = FirebaseAuth.instance.currentUser;
- UserModel userModel;
   return AppBar(
       actions: [
         Padding(
@@ -41,7 +40,8 @@ Widget headerContent(
                 child: image != null ? Container(
                   height: 50,
                   width: 50,
-                  child: Image.file(image, fit: BoxFit.cover,)) : helpImage(user.photoURL, 10)
+                  child: Image.file(image, fit: BoxFit.cover,)
+                ) : helpImage(user.photoURL, 10)
             //     ):helpImage(
             //         '${user.photoURL}',
             //         10.0)

@@ -149,7 +149,7 @@ class LoginScreen extends StatelessWidget {
                     {
                       helpNavigateTo(context, RegisterScreen());
                     },
-                    child: Text("Register", style: SubtitleTextStyle,)
+                    child: Text("Register", style: BodyTextStyle,)
                 )
               ],
             ),
