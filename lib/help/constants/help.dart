@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/styles.dart';
 
@@ -93,7 +94,15 @@ Widget helpButton({
 }
 
 void helpNavigateTo(context, widget) =>
-    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
+    Navigator.push(context,
+        PageTransition(
+          child: widget,
+          //childCurrent: widget,
+          type: PageTransitionType.bottomToTop,
+          duration: Duration(milliseconds: 600),
+          reverseDuration: Duration(milliseconds: 600),
+        )
+    );
 
 Widget helpContainerShadow(Widget content) => Container(
       margin: EdgeInsets.symmetric(vertical: 8),
@@ -216,7 +225,7 @@ Widget helpImage(String image, double radius) {
                 borderRadius: BorderRadius.circular(radius),
                 image: DecorationImage(
                   image: image,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
             );
