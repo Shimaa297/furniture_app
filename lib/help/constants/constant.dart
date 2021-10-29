@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/provider/provider.dart';
 import 'package:untitled/screens/category/collection_screen.dart';
+import 'package:untitled/screens/category/view_details_collection.dart';
 import 'package:untitled/screens/details_product.dart';
 import 'help.dart';
 
@@ -107,7 +108,7 @@ buildListCollection(context)
                         BoxShape.circle,
                             ()
                         {
-                          helpNavigateTo(context, CollectionScreen());
+                          helpNavigateTo(context, ViewCollection());
                         },
                         Icons.arrow_forward,
                         Colors.white

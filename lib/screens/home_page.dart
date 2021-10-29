@@ -11,6 +11,7 @@ import 'package:untitled/help/responsive_ui/responsive.dart';
 import 'package:untitled/provider/provider.dart';
 import 'package:untitled/screens/recommend_screen.dart';
 
+import 'category/category_screen.dart';
 import 'drawer/main_drawer.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,7 +40,7 @@ class MobileContent extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                height: 280,
+                height: 240,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: ColorsApp.col,
@@ -102,48 +103,52 @@ class MobileContent extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 220,
-                right: 20,
-                left: 20,
+                top: 240,
+                right: 10,
+                left: 10,
                 child: Column(
                   children: [
-                    helpContainerShadow(
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                helpIconButton(
-                                  ColorsApp.secColor,
-                                  BoxShape.circle,
-                                  () {},
-                                  Icons.home,
-                                  Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Text(
-                                  'Rent Type',
-                                  style: SubtitleTextStyle,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                    5,
-                                    (index) =>
-                                        buildListCategory(context, index)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              helpIconButton(
+                                ColorsApp.secColor,
+                                BoxShape.circle,
+                                    () {},
+                                Icons.home,
+                                Colors.white,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                'Rent Type',
+                                style: SubtitleTextStyle,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            child: Row(
+                              children: List.generate(
+                                  5,
+                                      (index) => Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: categoryList(index, context),
+                                  )
+                                //  buildListCategory(context, index)
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          // CategoryScreen()
+                        ],
                       ),
                     ),
                     Row(
