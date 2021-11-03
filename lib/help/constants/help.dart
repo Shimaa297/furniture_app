@@ -74,7 +74,7 @@ Widget helpButton({
   double width = double.infinity,
   radius,
   elevation,
-  fontSize = 15.0,
+  fontSize= 15.0,
 }) {
   return Container(
     width: width,
@@ -87,7 +87,7 @@ Widget helpButton({
       elevation: elevation,
       child: Text(
         text,
-        style: SubtitleTextStyle,
+        style: SubtitleTextStyle.copyWith(fontSize: fontSize),
       ),
     ),
   );

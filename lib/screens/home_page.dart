@@ -35,156 +35,176 @@ class MobileContent extends StatelessWidget {
     return Scaffold(
       drawer: MainDrawer(),
       body: SingleChildScrollView(
-        child: SizedBox(
-          height: helpHeight(context) * 1.5,
-          child: Stack(
-            children: [
-              Container(
-                height: 240,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: ColorsApp.col,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50))),
-              ),
-              headerContent(context, ''),
-              Positioned(
-                top: 70,
-                left: 10,
-                right: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Find the \nBest Apartment',
-                      style: TitleTextStyle,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          height: helpHeight(context) * .07,
-                          width: helpWidth(context) * .7,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.16),
-                                  spreadRadius: 2,
-                                  blurRadius: 3,
-                                  offset: Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ]),
-                          child: helpTextField(
-                            labelText: 'Search ',
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: ColorsApp.grayColor,
-                            ),
-                            textInputType: TextInputType.text,
-                            radius: 30.0,
-                          ),
-                        ),
-                        helpIconButton(
-                          ColorsApp.primaryColor,
-                          BoxShape.circle,
-                          () {},
-                          Icons.filter_alt_sharp,
-                          Colors.black,
-                        ),
-                      ],
-                    ),
-                  ],
+        child: Column(
+          children :[
+            Stack(
+              children: [
+                Container(
+                  height: 240,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: ColorsApp.col,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50))),
                 ),
-              ),
-              Positioned(
-                top: 240,
-                right: 10,
-                left: 10,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-                      child: Column(
+                headerContent(context, ''),
+                Positioned(
+                  top: 70,
+                  left: 10,
+                  right: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Find the \nBest Apartment',
+                        style: TitleTextStyle,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Row(
-                            children: [
-                              helpIconButton(
-                                ColorsApp.secColor,
-                                BoxShape.circle,
-                                    () {},
-                                Icons.home,
-                                Colors.white,
+                          Container(
+                            height: helpHeight(context) * .07,
+                            width: helpWidth(context) * .7,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.16),
+                                    spreadRadius: 2,
+                                    blurRadius: 3,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ]),
+                            child: helpTextField(
+                              labelText: 'Search ',
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: ColorsApp.grayColor,
                               ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Rent Type',
-                                style: SubtitleTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                            child: Row(
-                              children: List.generate(
-                                  5,
-                                      (index) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: categoryList(index, context),
-                                  )
-                                //  buildListCategory(context, index)
-                              ),
+                              textInputType: TextInputType.text,
+                              radius: 30.0,
                             ),
                           ),
-                          // CategoryScreen()
+                          helpIconButton(
+                            ColorsApp.primaryColor,
+                            BoxShape.circle,
+                                () {},
+                            Icons.filter_alt_sharp,
+                            Colors.black,
+                          ),
                         ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Collection', style: SubtitleTextStyle),
-                        TextButton(
-                          onPressed: () {
-                            helpNavigateTo(context, MobileRecommendedScreen());
-                          },
-                          child: Text(
-                            'See all',
-                            style: BodyTextStyle.copyWith(
-                                fontSize: 12,
-                                decoration: TextDecoration.underline),
-                          ),
-                        )
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(
-                            5,
-                                (index) => buildListCollection(context)
-                                  //  buildListProduct(context)
-                        ),
+                    ],
+                  ),
+                ),
+              ]),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      helpIconButton(
+                        ColorsApp.secColor,
+                        BoxShape.circle,
+                            () {},
+                        Icons.home,
+                        Colors.white,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Rent Type',
+                        style: SubtitleTextStyle,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Row(
+                      children: List.generate(
+                          5,
+                              (index) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: categoryList(index, context),
+                          )
+                        //  buildListCategory(context, index)
                       ),
                     ),
-                  ],
+                  ),
+                  // CategoryScreen()
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Collection', style: SubtitleTextStyle),
+                TextButton(
+                  onPressed: () {
+                    helpNavigateTo(context, MobileRecommendedScreen());
+                  },
+                  child: Text(
+                    'See all',
+                    style: BodyTextStyle.copyWith(
+                        fontSize: 12,
+                        color: ColorsApp.primaryColor,
+                        decoration: TextDecoration.underline),
+                  ),
+                )
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(
+                    5,
+                        (index) => buildListCollection(context)
+                  //  buildListProduct(context)
                 ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Offers', style: SubtitleTextStyle),
+                TextButton(
+                  onPressed: () {
+                    helpNavigateTo(context, MobileRecommendedScreen());
+                  },
+                  child: Text(
+                    'See all',
+                    style: BodyTextStyle.copyWith(
+                        fontSize: 12,
+                        color: ColorsApp.primaryColor,
+                        decoration: TextDecoration.underline),
+                  ),
+                )
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: List.generate(
+                    5,
+                        (index) => buildOffersList(context)
+                  //  buildListProduct(context)
+                ),
+              ),
+            ),
             ],
           ),
         ),
-      ),
     );
   }
 

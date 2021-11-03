@@ -123,6 +123,77 @@ buildListCollection(context)
     ),
   );
 }
+buildOffersList(context)
+{
+  return helpContainerShadow(
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      child: Row(
+        children: [
+          Container(
+            width: helpWidth(context) * .4,
+            height: helpHeight(context) * 0.2,
+            child: helpImage('https://media.architecturaldigest.com/photos/5f443ebcc73b004522ddb536/1:1/w_3000,h_3000,c_limit/95525_talclinen_v1.jpg', 10.0),
+          ),
+          Expanded(
+            child: Text(
+              'ALFA furniture ALFA furniture ALFA furniture ALFA furniture ALFA furniture',
+              style: BodyTextStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              // textAlign: TextAlign.center,
+            ),
+          ),
+          //if(model.discount != 0)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                    color: ColorsApp.primaryColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                          'DISCOUNT',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          )
+                      ),
+                    )),
+                SizedBox(height: 10,),
+                Row(
+                  // mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                        '1000',
+                        style: SubtitleTextStyle.copyWith(color: ColorsApp.primaryColor)
+                    ),
+                    SizedBox(width: 10,),
+                    // if(model.discount != 0)
+                    Text(
+                      // model.oldPrice.toString(),
+                        '1500',
+                        style: SubtitleTextStyle.copyWith(color: ColorsApp.grayColor, fontSize: 12, decoration: TextDecoration.lineThrough)
+                    ),
+                  ],
+                ),
+                SizedBox(height: 25,),
+                helpButton(
+                  width: helpWidth(context) * .27,
+                  radius: 10.0,
+                  fontSize: 13.0,
+                  background: Colors.white,
+                 // background: ColorsApp.primaryColor,
+                  text: 'Add To Cart',
+                  function: (){},
+                ),
+              ],
+            ),
+        ],
+      ),
+    ),
+  );
+}
 buildListProduct(context) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10),
