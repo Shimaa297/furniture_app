@@ -1,63 +1,47 @@
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/auth/model/user_model.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
+import 'package:untitled/screens/home_page.dart';
 
 
 class Auth{
-   UserModel userModel;
+
   static final FirebaseAuth _auth = FirebaseAuth.instance;
 
-   Future<void> userLogin(String email, String password) async
+   Future userLogin(String email, String password) async
   {
-   await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password
-   ).then((value){
-          print(email);
-          print(password);
-          print("user Login");
-    }).catchError(
-            (e){
-              print(e.toString());
-               }
-            );
+    try{
+      var result = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+      User firebaseUser = result.user;
+      //await refUsers.doc(firebaseUser.uid);
+      return firebaseUser.uid;
+    }catch(e)
+    {
+      helpShowToast(e.toString());
+      print('ERROR IS : $e');
+    }
   }
 
-   Future<void> userRegister(String name, phone, email, password, File image) async
+   Future userRegister(String email, password) async
    {
-      UserModel userModel = UserModel(
-       name: name,
-       email: email,
-       password: password,
-       phone: phone,
-       avatar: image.path,
-     );
-
-    await _auth.createUserWithEmailAndPassword(
+     try{
+       var result = await _auth.createUserWithEmailAndPassword(
          email: email,
          password: password,
-     ).then((value) async{
-      User user = FirebaseAuth.instance.currentUser;
-      await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
-        'uid' : user.uid,
-        'email' : email,
-        'password' : password,
-        'name' : name,
-        'phone' : phone,
-      });
-       print(userModel.email);
-       print(userModel.password);
-       print("User Register");
-     }).catchError(
-             (e){
-           print(e.toString());
-         }
-     );
+       );
+       User firebaseUser = result.user;
+       return firebaseUser.uid;
+     } catch(e)
+     {
+       helpShowToast(e.toString());
+       print('ERROR IS : $e');
+     }
    }
 
 

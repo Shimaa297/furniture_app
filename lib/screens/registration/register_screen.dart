@@ -1,14 +1,12 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/auth/auth_firebase.dart';
+import 'package:untitled/auth/model/user_model.dart';
+import 'package:untitled/database/database_method.dart';
 import 'package:untitled/help/constants/constant.dart';
-import 'package:untitled/help/constants/header&footer.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/help/image_picker_widget.dart';
@@ -16,6 +14,7 @@ import 'package:untitled/provider/provider.dart';
 import 'package:untitled/provider/provider_signIn.dart';
 import 'package:untitled/screens/home_page.dart';
 import 'package:untitled/screens/profile/profile.dart';
+import 'package:untitled/sharedPrefernce/cache_helper.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -23,19 +22,25 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    _name.dispose();
+    _phone.dispose();
+    super.dispose();
+  }
   Auth auth = Auth();
-
+  bool isLoading = false;
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _phone = TextEditingController();
 
-  TextEditingController _emailController = TextEditingController();
-
-  TextEditingController _passwordController = TextEditingController();
-
-  TextEditingController _nameController = TextEditingController();
-
-  TextEditingController _phoneController = TextEditingController();
-
-  // File image;
+   File image;
+   UserModel userModel;
   // Future pickImage(ImageSource source) async {
   //   try {
   //     final image = await ImagePicker().pickImage(source: source);
@@ -56,13 +61,68 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   //   return File(imagePath).copy(image.path);
   // }
+  register(context) async {
+    if (_globalKey.currentState.validate()) {
+      //_globalKey.currentState.save();
+      setState(() {
+        isLoading = true;
+        helpLoading();
+      });
+      String uid = await auth.userRegister(
+          _email.text, _password.text);
+     // print('Register Done');
+      if( uid != null){
+        Map<String, dynamic> myMap = {
+          'email' : _email.text,
+          'name' : _name.text,
+          'photo' : 'https://firebasestorage.googleapis.com/v0/b/chatappfromscratch.appspot.com/o/user.png?alt=media&token=40743cd8-786f-48cf-bf15-193707d4b1f8',
+          'uid' : uid,
+          'phone' : _phone.text
+        };
+        await DatabaseMethod().setUserInfo(uid, myMap);
+        await CacheHelper().markTheUser(uid);
+        //providerUser//
+        Provider.of<ProviderSignIn>(context, listen: false).definerUser(uid);
+      }
+      Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context)
+        {
+          return HomePage();
+        }
+        ),
+      );
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      auth.showError('Some thing is Error', context);
+    }
+  }
 
+  getProfileImage() async {
+    String photoUrl = image != null
+        ? await DatabaseMethod().uploadImageToStorage(image, userModel.uid)
+        : '';
+    UserModel updatedUser = UserModel(
+       // bio: bioController.text,
+        photo: image == null ? userModel.photo : photoUrl,
+        username: _name.text);
+    print('Its the ${updatedUser.email}');
+    // User? updatedUser = User(
+    //     bio: bioController.text,
+    //     photo: myUser!.photo!,
+    //     username: usernameController.text);
+    Provider.of<ProviderSignIn>(context, listen: false)
+        .updateUserInfo(updatedUser, userModel.uid);
+  }
   @override
+
   Widget build(BuildContext context) {
     var provider = Provider.of<ProviderApp>(context);
     return SafeArea(
       child: Scaffold(
-        body: Padding(
+        body: isLoading == true ? helpLoading()
+       : Padding(
           padding: const EdgeInsets.all(15.0),
           child: Center(
             child: SingleChildScrollView(
@@ -121,7 +181,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 20,
                     ),
                     helpTextField(
-                      controller: _nameController,
+                      controller: _name,
                       labelText: 'name',
                       fillColor: ColorsApp.col,
                       prefixIcon: Icon(
@@ -142,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 30,
                     ),
                     helpTextField(
-                      controller: _emailController,
+                      controller: _email,
                       labelText: 'email',
                       fillColor: ColorsApp.col,
                       prefixIcon: Icon(
@@ -163,7 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 30,
                     ),
                     helpTextField(
-                      controller: _passwordController,
+                      controller: _password,
                       labelText: 'password',
                       isPassword: provider.isPassword,
                       suffixIcon: provider.isPassword
@@ -179,9 +239,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       radius: 50.0,
                       textInputType: TextInputType.visiblePassword,
-                      validator: (input) {
-                        if (input.isEmpty) {
-                          return 'Password is Empty';
+                      validator: (password) {
+                        if (password.length < 6) {
+                          return 'Enter a +6 character password';
                         }
                         return null;
                       },
@@ -191,7 +251,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 30,
                     ),
                     helpTextField(
-                      controller: _phoneController,
+                      controller: _phone,
                       labelText: 'phone',
                       fillColor: ColorsApp.col,
                       prefixIcon: Icon(
@@ -275,34 +335,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  register(context) async {
-    if (_globalKey.currentState.validate()) {
-      _globalKey.currentState.save();
-      helpLoading();
-      await auth.userRegister(_emailController.text, _passwordController.text,
-          _nameController.text, _phoneController.text, image);
-      print('Register Done');
-      helpNavigateTo(context, HomePage());
-    } else {
-      auth.showError('Some thing is Error', context);
-    }
-  }
 
-  registerFunction(context) {
-    final String email = _emailController.text.trim();
-    final String password = _passwordController.text.trim();
-    final String name = _nameController.text.trim();
-    final String phone = _phoneController.text.trim();
 
-    if (email.isEmpty) {
-      print("Email is Empty");
-    } else {
-      if (password.isEmpty) {
-        print("Password is Empty");
-      } else {
-        auth.userRegister(name, phone, email, password, image);
-      }
-      helpNavigateTo(context, HomePage());
-    }
-  }
+  // registerFunction(context) {
+  //   final String email = _emailController.text.trim();
+  //   final String password = _passwordController.text.trim();
+  //   final String name = _nameController.text.trim();
+  //   final String phone = _phoneController.text.trim();
+  //
+  //   if (email.isEmpty) {
+  //     print("Email is Empty");
+  //   } else {
+  //     if (password.isEmpty) {
+  //       print("Password is Empty");
+  //     } else {
+  //       auth.userRegister(name, phone, email, password, image);
+  //     }
+  //     helpNavigateTo(context, HomePage());
+  //   }
+  // }
 }

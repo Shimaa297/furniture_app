@@ -42,14 +42,23 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         body: 'Sub Title on boarding title 3'),
   ];
 
- void skip()
+ // void skip()
+ // {
+ //   CacheHelper.saveData(key: 'onBoarding', value: true).then(
+ //           (value) {
+ //             if(value){
+ //               helpNavigateTo(context, LoginScreen());
+ //             }
+ //           });
+ // }
+@override
+ void didChangeDependencies() async
  {
-   CacheHelper.saveData(key: 'onBoarding', value: true).then(
-           (value) {
-             if(value){
-               helpNavigateTo(context, LoginScreen());
-             }
-           });
+   final newUser = await CacheHelper.checkIfLoggedIn();
+   if( newUser != null){
+     helpNavigateTo(context, HomePage());
+   }
+   super .didChangeDependencies();
  }
   @override
   Widget build(BuildContext context) {
@@ -58,7 +67,8 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
         actions: [
           TextButton(
             //  onPressed: submit,
-            onPressed: ()=> skip(),
+            onPressed: (){},
+                //skip(),
             child: Text('SKIP',
                 //  textAlign: TextAlign.right,
                 style: BodyTextStyle

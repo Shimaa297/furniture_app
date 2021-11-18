@@ -1,7 +1,10 @@
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled/database/database_method.dart';
 import 'package:untitled/help/animate_button.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/header&footer.dart';
@@ -9,12 +12,50 @@ import 'package:untitled/help/constants/styles.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/responsive_ui/responsive.dart';
 import 'package:untitled/provider/provider.dart';
+import 'package:untitled/provider/provider_signIn.dart';
 import 'package:untitled/screens/recommend_screen.dart';
-
-import 'category/category_screen.dart';
+import 'package:untitled/sharedPrefernce/cache_helper.dart';
 import 'drawer/main_drawer.dart';
 
-class HomePage extends StatelessWidget {
+final CollectionReference refUsers =
+FirebaseFirestore.instance.collection('users');
+DatabaseMethod databaseMethods = DatabaseMethod();
+
+
+
+
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String uid;
+  String photoUrl;
+  bool isLoading= true;
+  retrieveData() async {
+    final userAlreadyLoggedInId = await CacheHelper.checkIfLoggedIn();
+    if (userAlreadyLoggedInId != true) {
+      BuildContext context;
+      await Provider.of<ProviderSignIn>(context, listen: false)
+          .definerUser(userAlreadyLoggedInId);
+      print('Ok');
+    }
+  }
+  @override
+  void didChangeDependencies() async {
+    BuildContext context;
+    await retrieveData();
+    var userProvider = Provider.of<ProviderSignIn>(context, listen: false);
+    uid = userProvider.myUser?.uid;
+    photoUrl = userProvider.myUser?.photo;
+    // await userProvider.getLastMessages(userProvider.myUser!);
+    setState(() {
+      isLoading = false;
+    });
+
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

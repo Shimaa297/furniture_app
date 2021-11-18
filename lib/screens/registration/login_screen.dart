@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/auth/auth_firebase.dart';
 import 'package:untitled/auth/data/repository_data.dart';
+import 'package:untitled/auth/model/user_model.dart';
 import 'package:untitled/help/constants/constant.dart';
 import 'package:untitled/help/constants/help.dart';
 import 'package:untitled/help/constants/styles.dart';
@@ -15,23 +15,65 @@ import 'package:untitled/screens/registration/register_screen.dart';
 import 'package:untitled/sharedPrefernce/cache_helper.dart';
 
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   Auth auth = Auth();
+
   GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
   TextEditingController _emailController = TextEditingController();
+
   TextEditingController _passwordController = TextEditingController();
+ bool isLoading = false;
 
-
+  login(context) async {
+    if(_globalKey.currentState.validate())
+    {
+      // _globalKey.currentState.save();
+      setState(() {
+        isLoading = true;
+        helpLoading();
+      });
+      var uid = await auth.userLogin(_emailController.text, _passwordController.text);
+      //print('Login Done');
+      if (uid == null){
+        setState(() {
+          isLoading = false;
+        });
+        return helpShowToast('Email or password isn\'t correct');
+      } else {
+        await CacheHelper().markTheUser(uid);
+        UserModel user = await Provider.of<ProviderSignIn>(context, listen: false)
+            .definerUser(uid);
+        print(user.email);
+        helpNavigateTo(context, HomePage());
+      }
+      // CacheHelper.saveData(key: 'token', value: user.uid).then((value){
+      //   helpNavigateTo(context, HomePage());
+      // });
+      // // helpShowToast('message')
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ProviderApp>(context);
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
+      body: isLoading? helpLoading()
+      :SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
           child: Form(
             key: _globalKey,
             child: Column(
@@ -159,58 +201,5 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void login(context) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if(_globalKey.currentState.validate())
-    {
-      _globalKey.currentState.save();
-      await auth.userLogin(_emailController.text, _passwordController.text);
-      print('Login Done');
-      CacheHelper.saveData(key: 'token', value: user.uid).then((value){
-        helpNavigateTo(context, HomePage());
-      });
-      // helpShowToast('message')
-    }
-    else{
-      auth.showError('Some thing is Error', context);
-    }
-  }
-  //  loginFunction(context) async{
-  //   final String email = _emailController.text.trim();
-  //   final String password = _passwordController.text.trim();
-  //
-  //   if(email.isNotEmpty && password.isNotEmpty)
-  //   {
-  //     if(_globalKey.currentState.validate())
-  //     {
-  //       await auth.userLogin(email, password);
-  //       print('Login Done');
-  //       helpNavigateTo(context, HomePage());
-  //     }
-  //     // await auth.userLogin(email, password);
-  //     //     print('Login Done');
-  //     //     helpNavigateTo(context, HomePage());
-  //     // await auth.userLogin(email, password).then((value)
-  //     // {
-  //     //   if( != null)
-  //     //   {
-  //     //     print('Login Done');
-  //     //     helpNavigateTo(context, HomePage());
-  //     //   } else {
-  //     //     auth.showError('error', context);
-  //     //   }
-  //     // }).catchError((e)=> e.toString());
-  //   }
-  //   if(email.isEmpty){
-  //     print("Email is Empty");
-  //   } else{
-  //     if(password.isEmpty){
-  //       print("Password is Empty");
-  //     } else{
-  //       auth.userLogin(email, password);
-  //       helpNavigateTo(context, HomePage());
-  //     }
-  //    // helpNavigateTo(context, HomePage());
-  //   }
-  // }
+
 }

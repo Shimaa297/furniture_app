@@ -47,4 +47,15 @@ class CacheHelper{
     return await sharedPreference.remove(key);
   }
 
+  markTheUser(String userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('userId', userId);
+  }
+
+  static checkIfLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final newUser = prefs.getString('userId') ?? true;
+    return newUser;
+  }
+
 }

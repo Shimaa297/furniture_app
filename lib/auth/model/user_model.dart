@@ -1,26 +1,37 @@
-class UserModel {
-  int id;
-  String name;
-  String avatar;
-  String email;
-  String password;
-  String emailVerifiedAt;
-  String providerFacebookId;
-  String providerGoogleId;
-  int isVerify;
-  String phone;
+class UserModel{
 
-  UserModel(
-      {
-        this.id,
-        this.name,
-        this.avatar,
-        this.email,
-        this.password,
-        this.emailVerifiedAt,
-        this.providerFacebookId,
-        this.providerGoogleId,
-        this.isVerify,
-        this.phone,
-      });
+  String uid;
+  String username;
+  String phone;
+  String email;
+  String photo;
+  bool state;
+
+  UserModel({
+    this.uid,
+    this.phone,
+    this.email,
+    this.username,
+    this.photo,
+    this.state
+  });
+
+    UserModel.fromJson(Map<String , dynamic> json){
+        uid = json['uid'];
+        phone= json['phone'];
+        email= json['email'];
+        username= json['username'];
+        photo= json['photo'];
+        state= json['state'];
+  }
+
+  Map<String, dynamic> myMap () {
+      return {
+        'email' : email,
+        'username' : username,
+        'photo' : photo,
+        'uid' : uid,
+        'phone' : phone
+      };
+  }
 }

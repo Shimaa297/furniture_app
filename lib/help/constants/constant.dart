@@ -149,7 +149,7 @@ buildOffersList(context)
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                    color: ColorsApp.primaryColor,
+                    color: ColorsApp.defTextColor,
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
